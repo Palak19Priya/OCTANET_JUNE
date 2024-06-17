@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #8ac9f1;
+            margin-top: 60px;
+            padding: 50;
+        }
+        
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: rgba(158, 247, 247, 0.518);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        header {
+            text-align: center;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .task-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .task-entry input,
+        .task-entry select,
+        .task-entry button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        
+        #task-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .task-item.completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+        
+        .task-buttons {
+            display: flex;
+        }
+        
+        .task-buttons button {
+            margin-left: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        button.complete {
+            background-color: #2dae3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        
+        button.delete {
+            background-color: #f71a1a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>        
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>To-Do List</h1>
+            <div class="task-entry">
+                <input type="text" id="task-input" placeholder="Enter new task">
+                <input type="date" id="due-date">
+                <select id="priority">
+                    <option value="low">Low Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="high">High Priority</option>
+                </select>
+                <button id="add-task">Add Task</button>
+            </div>
+        </header>
+        <main>
+            <ul id="task-list"></ul>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('add-task').addEventListener('click', function() {
+            let taskInput = document.getElementById('task-input');
+            let dueDateInput = document.getElementById('due-date');
+            let priorityInput = document.getElementById('priority');
+            let taskList = document.getElementById('task-list');
+        
+            if (taskInput.value.trim() !== '') {
+                let taskItem = document.createElement('li');
+                taskItem.className = 'task-item';
+                
+                let taskText = document.createElement('span');
+                taskText.textContent = `${taskInput.value} (Due: ${dueDateInput.value}, Priority: ${priorityInput.value})`;
+                taskItem.appendChild(taskText);
+                
+                let buttons = document.createElement('div');
+                buttons.className = 'task-buttons';
+        
+                let completeButton = document.createElement('button');
+                completeButton.className = 'complete';
+                completeButton.textContent = 'Completed';
+                completeButton.addEventListener('click', function() {
+                    taskItem.classList.toggle('completed');
+                });
+        
+                let deleteButton = document.createElement('button');
+                deleteButton.className = 'delete';
+                deleteButton.textContent = 'Delete';
+                deleteButton.addEventListener('click', function() {
+                    taskList.removeChild(taskItem);
+                });
+        
+                buttons.appendChild(completeButton);
+                buttons.appendChild(deleteButton);
+                taskItem.appendChild(buttons);
+                
+                taskList.appendChild(taskItem);
+                
+                taskInput.value = '';
+                dueDateInput.value = '';
+                priorityInput.value = 'low';
+            }
+        });
+        
+    </script>
+</body>
+</html>
